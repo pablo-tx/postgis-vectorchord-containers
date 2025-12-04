@@ -23,12 +23,12 @@ Install a single catalog (e.g. `standard` images on Debian `trixie`):
 
 ```sh
 kubectl apply -f \
-  https://raw.githubusercontent.com/cloudnative-pg/postgis-containers/refs/heads/main/image-catalogs/postgis-standard-trixie.yaml
+  https://raw.githubusercontent.com/pablo-tx/postgis-vectorchord-containers/refs/heads/main/image-catalogs/postgis-vectorchord-standard-trixie.yaml
 ````
 
 Install all catalogs at once:
 
 ```sh
 kubectl apply -k \
-  https://github.com/cloudnative-pg/postgis-containers/image-catalogs?ref=main
+  https://github.com/pablo-tx/postgis-vectorchord-containers/image-catalogs?ref=main
 ```

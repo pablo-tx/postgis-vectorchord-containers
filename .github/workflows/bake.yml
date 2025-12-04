@@ -11,7 +11,7 @@ on:
         options:
           - testing
           - production
-        default: testing
+        default: production
         description: "Choose the environment to bake the target for"
 
 permissions: {}
@@ -31,14 +31,15 @@ jobs:
       - name: Get supported PostgreSQL versions
         id: get_versions
         run: |
+          # Get all versions and take only the latest two
           VERSIONS="$(curl -s https://raw.githubusercontent.com/cloudnative-pg/postgres-containers/refs/heads/main/docker-bake.hcl \
             | sed -n '/postgreSQL\(Versions\|PreviewVersions\) = \[/,/\]/ s/.*"\([0-9][0-9]*\)[.~][^"]*".*/\1/p' \
-            | sort -nu | paste -sd,)"
-          echo "PostgreSQL versions: [$VERSIONS]"
+            | sort -nru | head -2 | paste -sd,)"
+          echo "Latest two PostgreSQL versions: [$VERSIONS]"
           echo "versions=[$VERSIONS]" >> "$GITHUB_OUTPUT"
 
   Bake:
-    name: Bake
+    name: Bake PostGIS + VectorChord
     needs: get_versions
     permissions:
       packages: write
@@ -49,13 +50,13 @@ jobs:
       fail-fast: false
       matrix:
         version: ${{ fromJson(needs.get_versions.outputs.versions) }}
-    uses: cloudnative-pg/postgres-containers/.github/workflows/bake_targets.yml@main
+    uses: pablo-tx/postgis-vectorchord-containers/.github/workflows/bake_targets.yml@main
     with:
       environment: ${{ github.event.inputs.environment }}
       postgresql_version: ${{ matrix.version }}
-      target: "postgis"
+      target: "postgis-vectorchord-containers"
       bake_files: "./source/docker-bake.hcl,./docker-bake.hcl"
-      bake_remote_source: "cloudnative-pg/postgres-containers"
+      bake_remote_source: "pablo-tx/postgis-vectorchord-containers"
     secrets:
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
