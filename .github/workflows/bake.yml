@@ -11,7 +11,7 @@ on:
         options:
           - testing
           - production
-        default: production
+        default: testing
         description: "Choose the environment to bake the target for"
 
 permissions: {}
