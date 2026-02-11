@@ -12,7 +12,7 @@ variable "postgisMajorVersions" {
 // MANUALLY EDIT THE CONTENT - to add new VectorChord versions
 variable "vectorchordVersions" {
   default = [
-    "1.0.0"
+    "1.1.0"
   ]
 }
 
@@ -31,10 +31,10 @@ postgisMatrix = {
 // VectorChord version mapping
 vectorchordMatrix = {
   bookworm = {
-    "1.0.0" = "1.0.0"
+    "1.1.0" = "1.1.0"
   }
   trixie = {
-    "1.0.0" = "1.0.0"
+    "1.1.0" = "1.1.0"
   }
 }
 
